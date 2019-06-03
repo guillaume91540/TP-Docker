@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+        frontend:
+                hostname: frontend
+                build: ./api-frontend
+                environment:
+                        API_BACKEND_URL: backend
+                        API_BACKEND_PORT: 8001
+                ports:
+                        - 8000:8000
+                networks:
+                        middle:
+                restart: on-failure
+                depends-on:
+                        - backend
+        backend:
+                hostname: backend
+                build: ./api-backend
+                ports:
+                        - 8001:8001
+                networks:
+                        middle:
+                                aliases:
+                                        - backend
+                restart: on-failure
+
+
+networks:
+        middle:
